@@ -46,8 +46,11 @@ World Model generates the next frame given the current frame and action control.
 
 ## 🛠️ Requirements and Installation
 ```
+git clone https://github.com/alibaba-damo-academy/RynnVLA-002.git
+cd RynnVLA-002
 pip install -r requirements.txt
 pip install flash-attn --no-build-isolation
+pip install -e .
 git clone https://github.com/Lifelong-Robot-Learning/LIBERO.git
 cd LIBERO
 pip install -e .
