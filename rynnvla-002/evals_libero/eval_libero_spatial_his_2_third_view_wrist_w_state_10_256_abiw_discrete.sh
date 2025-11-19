@@ -30,6 +30,7 @@ torchrun --nnodes=1 --nproc_per_node=1 --master_port=$((29550)) ../eval_solver_l
     --his $his_setting \
     --no_auto_resume \
     --resume_path $checkpoint_path \
+    --tokenizer_path Alpha-VLLM/Lumina-mGPT-7B-768 \
     --eval_only True \
     --model_size 7B \
     --batch_size 4 \

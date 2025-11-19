@@ -76,6 +76,7 @@ class Solver(PretrainSolverBase):
         parser.add_argument("--action_steps", default=25, type=int, help="actions to be excuted when multiple actions are generated")
         parser.add_argument("--half", default=0, type=int, help="which part of test set will be evaluated")
         parser.add_argument("--resolution", default=256, type=int, help="resolution")
+        parser.add_argument("--tokenizer_path", type=str, default="Alpha-VLLM/Lumina-mGPT-7B-768")
         return parser
 
     def _model_func(
@@ -99,7 +100,7 @@ class Solver(PretrainSolverBase):
         return model, None
 
     def _item_processor_func(self) -> ItemProcessor:
-        return ItemProcessor(target_size=288)
+        return ItemProcessor(target_size=288, tokenizer=self.args.tokenizer_path)
 
     def _make_and_save_starting_point(self, save_path: str) -> None:
 
@@ -150,7 +151,7 @@ class Solver(PretrainSolverBase):
         DEVICE = torch.device(f"cuda:{self.args.device}")
         self.model = self.model.to(DEVICE)
         self.model.eval()
-        item_processor = ItemProcessor(target_size=self.args.resolution)
+        item_processor = ItemProcessor(target_size=self.args.resolution, tokenizer=self.args.tokenizer_path)
         
         # Initialize LIBERO task suite
         benchmark_dict = benchmark.get_benchmark_dict()

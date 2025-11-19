@@ -14,7 +14,7 @@ data_config_train=../configs/libero_goal/his_2_third_view_wrist_w_state_5_256_pr
 data_config_val_ind=../configs/libero_goal/his_2_third_view_wrist_w_state_5_256_pretokenize.yaml
 data_config_val_ood=../configs/libero_goal/his_2_third_view_wrist_w_state_5_256_pretokenize.yaml
 time_horizon=5
-epoch_num=24
+epoch_num=8
 task_suite=libero_goal
 exp_name=his_2_third_view_wrist_w_state_5_256_abiw
 his_setting=his_2_third_view_wrist_w_state
@@ -30,6 +30,7 @@ torchrun --nnodes=1 --nproc_per_node=1 --master_port=$((29550)) ../eval_solver_l
     --his $his_setting \
     --no_auto_resume \
     --resume_path $checkpoint_path \
+    --tokenizer_path /public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af \
     --eval_only True \
     --model_size 7B \
     --batch_size 4 \

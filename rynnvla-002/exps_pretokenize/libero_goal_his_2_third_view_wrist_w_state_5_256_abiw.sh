@@ -44,7 +44,7 @@ torchrun --master_addr=$MASTER_ADDR --master_port=$MASTER_PORT --nproc_per_node=
 --train_only True \
 --disable_length_clustering \
 --init_from ../ckpts/starting_point \
---tokenizer_path /public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af \
+--tokenizer_path Alpha-VLLM/Lumina-mGPT-7B-768 \
 --ablation 0 \
 --model_size 7B \
 --batch_size 8 \
