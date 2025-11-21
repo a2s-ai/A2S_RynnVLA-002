@@ -76,7 +76,7 @@ class Solver(PretrainSolverBase):
         parser.add_argument("--action_steps", default=25, type=int, help="actions to be excuted when multiple actions are generated")
         parser.add_argument("--half", default=0, type=int, help="which part of test set will be evaluated")
         parser.add_argument("--resolution", default=256, type=int, help="resolution")
-        parser.add_argument("--tokenizer_path", type=str, default="Alpha-VLLM/Lumina-mGPT-7B-768")
+        parser.add_argument("--tokenizer_path", type=str, default="../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af")
         return parser
 
     def _model_func(

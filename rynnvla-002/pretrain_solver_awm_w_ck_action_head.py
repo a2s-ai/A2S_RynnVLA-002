@@ -54,7 +54,7 @@ class Solver(PretrainSolverBase_ck_action_head):
         parser.add_argument("--with_action", action='store_true')
         parser.add_argument("--with_world_model", action='store_true')
         parser.add_argument("--resolution", type=int, default=256, choices=[256, 512])
-        parser.add_argument("--tokenizer_path", type=str, default="Alpha-VLLM/Lumina-mGPT-7B-768")
+        parser.add_argument("--tokenizer_path", type=str, default="../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af")
         return parser
 
     def _model_func(

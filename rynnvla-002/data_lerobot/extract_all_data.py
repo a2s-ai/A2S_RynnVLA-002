@@ -123,17 +123,22 @@ def save_processed_data(output_dir, front_images, wrist_images, abs_action_seque
 
 def generate_output_path(hdf5_path, instruction, base_output_dir):
     """
-    Converts an HDF5 path into the output directory by:
-    - Replacing `/mnt/PLNAS/cenjun/all_data` with `/mnt/PLNAS/cenjun/all_data/extracted/instruction_path`
-    - Where `instruction_path` is the instruction text with spaces replaced by underscores
+    根据指令和 HDF5 文件名生成一个清晰的输出目录。
+    最终路径结构为: base_output_dir/instruction_path/hdf5_filename_without_extension
     """
+    # 1. 将指令文本处理成适合用作目录名的字符串
+    # 例如: "Place the block..." -> "Place_the_block..."
     instruction_path = instruction.replace(" ", "_").replace("/", "_").replace("\\", "_")
-    base_prefix = "/mnt/PLNAS/cenjun/all_data"
-    new_base = os.path.join(base_prefix, "extracted", instruction_path)
+
+    # 2. 从完整的 HDF5 文件路径中提取文件名 (例如: "episode_000000.hdf5")
+    hdf5_filename = os.path.basename(hdf5_path)
+
+    # 3. 去掉文件名的后缀，得到一个纯净的目录名 (例如: "episode_000000")
+    episode_dir_name = os.path.splitext(hdf5_filename)[0]
+
+    # 4. 使用 os.path.join 将各部分安全地拼接成最终的输出路径
+    output_dir = os.path.join(base_output_dir, instruction_path, episode_dir_name)
     
-    # Replace old prefix with new one
-    rel_path = os.path.relpath(hdf5_path, base_prefix)
-    output_dir = os.path.join(base_output_dir, instruction_path, os.path.splitext(rel_path)[0])
     return output_dir
 
 

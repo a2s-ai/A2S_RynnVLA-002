@@ -64,7 +64,7 @@ class FlexARItemProcessor(MMConvItemProcessor):
 
     def __init__(
         self,
-        tokenizer= "Alpha-VLLM/Lumina-mGPT-7B-768",
+        tokenizer= "../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
         conv_template=Conversation,
         target_size=512,
     ):
@@ -209,7 +209,7 @@ class FlexARItemProcessor_Action(MMConvItemProcessor):
 
     def __init__(
         self,
-        tokenizer= "/public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
+        tokenizer= "../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
         conv_template=Conversation,
         target_size=512,
     ):
@@ -407,7 +407,7 @@ class FlexARItemProcessor_Action_State(MMConvItemProcessor):
 
     def __init__(
         self,
-        tokenizer= "/public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
+        tokenizer= "../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
         conv_template=Conversation,
         target_size=512,
         device='cuda',
@@ -635,7 +635,7 @@ class FlexARItemProcessor_Action_FAST(MMConvItemProcessor):
 
     def __init__(
         self,
-        tokenizer= "/public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
+        tokenizer= "../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
         conv_template=Conversation,
         target_size=512,
     ):

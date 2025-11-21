@@ -5,7 +5,7 @@
                 "Place the block inside the circle."
             ],
             "data_path": [
-                "data_path/so100_Pick-up-all-the-blocks-one-by-one-with-tweezers-and-put-them-in-the-roll/episode_000000.hdf5",
+                "/mnt/damorobot/cenjun/lerobot_data/so100_Pick-up-all-the-blocks-one-by-one-with-tweezers-and-put-them-in-the-roll/episode_000000.hdf5"
             ]
         },
         "strawberry_pickup": {
@@ -13,7 +13,7 @@
                 "Place the strawberries from the table into the cup."
             ],
             "data_path": [
-                "data_path/so100_Pick-up-the-strawberries-and-put-them-in-the-cup/episode_000000.hdf5",
+                "/mnt/damorobot/cenjun/lerobot_data/so100_Pick-up-the-strawberries-and-put-them-in-the-cup/episode_000000.hdf5"
             ]
         },
         "straight_holder_grab_pen": {
@@ -21,7 +21,7 @@
                 "Pick up the holder and place it straight then pick up the pen and place it in the holder"
             ],
             "data_path": [
-                "data_path/so100_Pick-up-the-holder-and-place-it-straight-then-pick-up-the-pen-and-place-it-in-the-holder-complete/episode_000000.hdf5",
+                "/mnt/damorobot/cenjun/lerobot_data/so100_Pick-up-the-holder-and-place-it-straight-then-pick-up-the-pen-and-place-it-in-the-holder-complete/episode_000000.hdf5"
             ]
         }
     }

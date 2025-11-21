@@ -3,9 +3,10 @@ apt update
 apt install libegl-dev xvfb libgl1-mesa-dri libgl1-mesa-dev libgl1-mesa-glx libstdc++6 -y
 # apt install ffmpeg libsm6 libxext6 libgl1
 export LIBGL_DRIVERS_PATH=/usr/lib/x86_64-linux-gnu/dri/
-ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /home/pai/bin/../lib/libstdc++.so.6
+# ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /mnt/workspace/workgroup/cenjun.cj/conda/lumina_libero_a800/lib/libstdc++.so.6
+ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /mnt/nas_jianchong/cenjun.cj/grasping/conda_env/lumina_libero_h20/lib/libstdc++.so.6
 
-lr=5e-6
+lr=1e-5
 wd=0.1
 dropout=0.05
 z_loss_weight=1e-5
@@ -13,36 +14,31 @@ z_loss_weight=1e-5
 data_config_train=../configs/libero_10/his_2_third_view_wrist_w_state_10_256_pretokenize.yaml
 data_config_val_ind=../configs/libero_10/his_2_third_view_wrist_w_state_10_256_pretokenize.yaml
 data_config_val_ood=../configs/libero_10/his_2_third_view_wrist_w_state_10_256_pretokenize.yaml
-time_horizon=10
-epoch_num=35
-task_suite=libero_10
-exp_name=his_2_third_view_wrist_w_state_10_256_abiw
-his_setting=his_2_third_view_wrist_w_state
-eval_setting=continous
-checkpoint_path=../outputs/"$task_suite"/"$exp_name"/"epoch$epoch_num"
 
-base_output_dir=../eval_outputs/"$task_suite"/"$exp_name"/"epoch_$epoch_num"/"$eval_setting"
+base_exp_name=world_model_results
+base_output_dir=../eval_outputs/"$base_exp_name"
 mkdir -p "$base_output_dir"
 
-torchrun --nnodes=1 --nproc_per_node=1 --master_port=$((29502)) ../eval_solver_libero_continous_w_state.py \
-    --device 0 \
-    --task_suite_name $task_suite \
-    --his $his_setting \
+for i in {0..3}
+do
+    torchrun --nnodes=1 --nproc_per_node=1 --master_port=$((17500+i+5)) ../eval_solver_libero_g_video_512_third_wrist.py \
+    --device $((i)) \
+    --half $((i+1)) \
     --no_auto_resume \
-    --resume_path $checkpoint_path \
-    --tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af \
+    --resume_path "your ckpt path" \
     --eval_only True \
+    --his 1a2i \
+    --disable_length_clustering \
+    --ablation 1 \
     --model_size 7B \
-    --batch_size 4 \
+    --batch_size 8 \
     --accum_iter 1 \
-    --epochs $epoch_num \
+    --epochs 50 \
     --warmup_epochs 0.01 \
     --lr ${lr} \
     --min_lr ${lr} \
     --wd ${wd} \
     --clip_grad 4 \
-    --action_dim 7 \
-    --time_horizon $time_horizon \
     --data_config_train $data_config_train \
     --data_config_val_ind $data_config_val_ind \
     --data_config_val_ood $data_config_val_ood \
@@ -55,4 +51,9 @@ torchrun --nnodes=1 --nproc_per_node=1 --master_port=$((29502)) ../eval_solver_l
     --dropout ${dropout} \
     --z_loss_weight ${z_loss_weight} \
     --ckpt_max_keep 0 \
-    2>&1 | tee -a "$base_output_dir"/output.log
+    2>&1 | tee -a "$base_output_dir"/output.log &
+done
+
+wait
+
+echo "All experiments completed"

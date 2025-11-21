@@ -38,7 +38,7 @@ if __name__ == "__main__":
     parser.add_argument('--resolution', type=int, required=True,
                         help="resolution (e.g., 256, 512).")
     parser.add_argument('--tokenizer_path', type=str, required=True, 
-                        help="tokenizer path for Alpha-VLLM/Lumina-mGPT-7B-768")
+                        help="tokenizer path for ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af")
     parser.add_argument(
         '--his', '-H', type=int, default=2,
         help='The number of historical image frames to include in each conversation (for observation history).'

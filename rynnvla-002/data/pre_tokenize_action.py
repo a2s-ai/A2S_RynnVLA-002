@@ -15,7 +15,7 @@ from .item_processor import FlexARItemProcessor_Action
 class ItemProcessor(FlexARItemProcessor_Action):
     def __init__(
         self,
-        tokenizer= "Alpha-VLLM/Lumina-mGPT-7B-768",
+        tokenizer= "../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
         conv_template=Conversation,
         target_size=512,
     ):

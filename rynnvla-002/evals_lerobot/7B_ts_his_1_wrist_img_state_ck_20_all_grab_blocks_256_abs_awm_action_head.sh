@@ -25,47 +25,40 @@ echo "master_addr: $MASTER_ADDR"
 echo "master_port: $MASTER_PORT"
 echo "rank: $RANK"
 
-# lr=5e-6
-lr=1e-5
+lr=5e-6
 wd=0.1
 dropout=0.05
 z_loss_weight=1e-5
 
-data_config_train=../configs/libero_spatial/his_2_third_view_wrist_w_state_10_256_nopretokenize.yaml
-data_config_val_ind=../configs/libero_spatial/his_2_third_view_wrist_w_state_10_256_nopretokenize.yaml
-data_config_val_ood=../configs/libero_spatial/his_2_third_view_wrist_w_state_10_256_nopretokenize.yaml
-time_horizon=10
+data_config_train=../configs/lerobot/his_1_third_view_wrist_w_state_20_256_pretokenize.yaml
+data_config_val_ind=../configs/lerobot/his_1_third_view_wrist_w_state_20_256_pretokenize.yaml
+data_config_val_ood=../configs/lerobot/his_1_third_view_wrist_w_state_20_256_pretokenize.yaml
 
-exp_name=his_2_third_view_wo_wrist_w_state_10_256_abiw
-output_dir=../outputs/libero_spatial
+exp_name=lerobot_ts_his1imgstate_wrist_lr5e6_bs8_ck_20_all_abs_awm_256_action_head_w004
+output_dir=../lerobot_outputs
 mkdir -p "$output_dir"/"$exp_name"
 
-# torchrun --nnodes=1 --nproc_per_node=8 --master_port=30001 ../pretrain_solver_awm_w_ck_action_head.py \
-torchrun --master_addr=$MASTER_ADDR --master_port=$MASTER_PORT --nproc_per_node=$NPROC_PER_NODE --nnodes=$WORLD_SIZE --node_rank=$RANK ../pretrain_solver_awm_w_ck_action_head.py \
---disable_length_clustering \
+# torchrun --master_addr=$MASTER_ADDR --master_port=$MASTER_PORT --nproc_per_node=$NPROC_PER_NODE --nnodes=$WORLD_SIZE --node_rank=$RANK ../pretrain_solver_awm_w_ck_action_head.py \
+torchrun --nnodes=1 --nproc_per_node=4 --master_port=30001 ../pretrain_solver_awm_w_ck_action_head.py \
 --train_only True \
---preprocess false \
---with_action \
---with_world_model \
---resolution 256 \
+--disable_length_clustering \
 --init_from ../ckpts/starting_point \
---tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af \
+--action_dim 6 \
+--time_horizon 20 \
 --ablation 0 \
 --model_size 7B \
 --batch_size 8 \
 --accum_iter 1 \
---epochs 40 \
+--epochs 30 \
 --warmup_epochs 0.01 \
 --lr ${lr} \
 --min_lr ${lr} \
 --wd ${wd} \
 --clip_grad 4 \
---action_dim 7 \
---time_horizon $time_horizon \
 --data_config_train $data_config_train \
 --data_config_val_ind $data_config_val_ind \
 --data_config_val_ood $data_config_val_ood \
---num_workers 16 \
+--num_workers 8 \
 --output_dir "$output_dir"/"$exp_name" \
 --checkpointing \
 --max_seq_len 4096 \
@@ -73,6 +66,7 @@ torchrun --master_addr=$MASTER_ADDR --master_port=$MASTER_PORT --nproc_per_node=
 --dropout ${dropout} \
 --z_loss_weight ${z_loss_weight} \
 --ckpt_max_keep 0 \
+--save_iteration_interval 100000 \
 2>&1 | tee -a "$output_dir"/"$exp_name"/output.log
 
 echo "exp name: $exp_name" 

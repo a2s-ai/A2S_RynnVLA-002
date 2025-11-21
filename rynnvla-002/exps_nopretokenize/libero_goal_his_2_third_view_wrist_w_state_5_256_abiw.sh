@@ -49,7 +49,7 @@ torchrun --master_addr=$MASTER_ADDR --master_port=$MASTER_PORT --nproc_per_node=
 --with_world_model \
 --resolution 256 \
 --init_from ../ckpts/starting_point \
---tokenizer_path Alpha-VLLM/Lumina-mGPT-7B-768 \
+--tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af \
 --ablation 0 \
 --model_size 7B \
 --batch_size 8 \

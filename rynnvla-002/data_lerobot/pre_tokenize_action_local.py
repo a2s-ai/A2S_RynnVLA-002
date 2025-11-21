@@ -15,8 +15,7 @@ from item_processor import FlexARItemProcessor_Action
 class ItemProcessor(FlexARItemProcessor_Action):
     def __init__(
         self,
-        # tokenizer= "/public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
-        tokenizer= "/public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
+        tokenizer= "../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af",
         conv_template=Conversation,
         target_size=512,
     ):
@@ -63,9 +62,13 @@ if __name__ == "__main__":
         type=str,
     )
     parser.add_argument("--target_size", type=int, default=512)
+    parser.add_argument(
+        "--tokenizer",
+        type=str,
+    )
     args = parser.parse_args()
 
-    item_processor = ItemProcessor(target_size=args.target_size)
+    item_processor = ItemProcessor(target_size=args.target_size, tokenizer=args.tokenizer)
 
     with open(args.in_filename) as f:
         ori_contents = json.load(f)

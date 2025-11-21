@@ -31,7 +31,7 @@ torchrun --nnodes=1 --nproc_per_node=1 --master_port=$((29550)) ../eval_solver_l
     --his $his_setting \
     --no_auto_resume \
     --resume_path $checkpoint_path \
-    --tokenizer_path /public/hz_oss/cenjun/hug_models/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af \
+    --tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af \
     --eval_only True \
     --model_size 7B \
     --batch_size 4 \

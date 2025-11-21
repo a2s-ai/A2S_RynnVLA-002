@@ -78,7 +78,7 @@ class Solver(PretrainSolverBase):
         parser.add_argument("--resolution", default=256, type=int, help="resolution")
         parser.add_argument("--action_dim", type=int, default=7)
         parser.add_argument("--time_horizon", type=int, default=5)
-        parser.add_argument("--tokenizer_path", type=str, default="Alpha-VLLM/Lumina-mGPT-7B-768")
+        parser.add_argument("--tokenizer_path", type=str, default="../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af")
         return parser
 
     def _model_func(

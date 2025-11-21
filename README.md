@@ -35,7 +35,7 @@ RynnVLA-002 is an autoregressive action world model that unifies action and imag
 <br>
 
 ### VLA Model Results (Text + Image -> Action)
-Action Model generates actions given the text instruction and image observations.
+VLA model generates actions given the text instruction and image observations.
 
 |         |         |         |  
 | :-----: | :-----: | :-----: |  
@@ -70,29 +70,33 @@ pip install -e .
 
 | Model    |    HF Link        |    Continous Action SR (%)     | Discrete Action SR (%) |
 | :--------------------: | :------------------------------------------------------------: | :--------------------: | :--------------------: |
-| LIBERO-Spatial       | [jcenaa/WorldVLA-ActionModel-LIBERO-Spatial-256](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-Spatial-256/tree/main) | 99.0 | 94.2 |
-| LIBERO-Object       | [jcenaa/WorldVLA-ActionModel-LIBERO-Object-256](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-Object-256/tree/main) | 99.8 | 96.8 |
-| LIBERO-Goal | [jcenaa/WorldVLA-ActionModel-LIBERO-Goal-256](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-Goal-256/tree/main) | 96.4 | 94.6 |
-| LIBERO-Long | [jcenaa/WorldVLA-ActionModel-LIBERO-10-256](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-10-256/tree/main) | 94.4 | 87.6 |
+| LIBERO-Spatial       | []() | 99.0 | 94.2 |
+| LIBERO-Object       | []() | 99.8 | 96.8 |
+| LIBERO-Goal | []() | 96.4 | 94.6 |
+| LIBERO-Long | []() | 94.4 | 87.6 |
 <br>
 
 ### World Model (512 * 512)
 
-
-
 | *Goal* | HF Link |FVD↓ | PSNR↑ | SSIM↑ | LPIPS↓ |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| World Model | 370.0 | **22.25** | 77.84 | 19.70 |
-| [Action World Model](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-Goal-512/tree/main) | **336.8** | 22.13 | **78.13** | **19.43** |
+| World Model | | 370.0 | 22.25 | 77.84 | 19.70 |
+| Action World Model |  | 336.8 | 22.13 | 78.13 | 19.43 |
+
 | *Object* | HF Link | FVD↓ | PSNR↑ | SSIM↑ | LPIPS↓ |
-| World Model | 1141.6 | 20.31 | 59.59 | 27.30 |
-| [Action World Model](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-Object-512/tree/main) | **877.2** | **22.18** | **65.03** | **22.60** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| World Model | | 1141.6 | 20.31 | 59.59 | 27.30 |
+| Action World Model |  | 877.2 | 22.18 | 65.03 | 22.60 |
+
 | *Spatial* | HF Link | FVD↓ | PSNR↑ | SSIM↑ | LPIPS↓ |
-| World Model | 405.4 | 22.32 | 79.15 | 20.28 |
-| [Action World Model](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-Spatial-512/tree/main) | **373.1** | **23.88** | **82.41** | **16.33** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| World Model | | 405.4 | 22.32 | 79.15 | 20.28 |
+| Action World Model | | 373.1 | 23.88 | 82.41 | 16.33 |
+
 | *Long* | HF Link | FVD↓ | PSNR↑ | SSIM↑ | LPIPS↓ |
-| World Model | 557.73 | 18.24 | 69.16 | 31.60 |
-| [Action World Model](https://huggingface.co/jcenaa/WorldVLA-ActionModel-LIBERO-10-512/tree/main) | **427.86** | **19.36** | **72.19** | **27.78** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| World Model | | 557.73 | 18.24 | 69.16 | 31.60 |
+| Action World Model |  | 427.86 | 19.36 | 72.19 | 27.78 |
 
 
 
@@ -130,7 +134,7 @@ python regenerate_libero_dataset_save_img_action_state_wrist.py \
     --raw_data_dir ../processed_data/libero_goal_no_noops_t_256 \
     --save_dir ../processed_data/libero_goal_image_state_action_t_256
 ``` 
-Next, generate the conversations data for the Chameleon model. The action model conversations are in the following format:
+Next, generate the conversations data for the Chameleon model. The VLA model conversations are in the following format:
 ```json
 {
   "conversations": [
@@ -207,8 +211,8 @@ python world_model_bi_views_conv_generation.py \
 Finally, tokenize all the conversations into tokens and save them.
 ```bash
 cd rynnvla-002/data
-python pretoken_state_action_model.py --task goal --resolution 256 --with_state --img_names imgs_third_view imgs_wrist --his 2 --len_action 5 --tokenizer_path Alpha-VLLM/Lumina-mGPT-7B-768
-python pretoken_world_model.py --task goal --resolution 256 --img_name imgs_third_view imgs_wrist --tokenizer_path Alpha-VLLM/Lumina-mGPT-7B-768
+python pretoken_state_action_model.py --task goal --resolution 256 --with_state --img_names imgs_third_view imgs_wrist --his 2 --len_action 5 --tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af
+python pretoken_world_model.py --task goal --resolution 256 --img_name imgs_third_view imgs_wrist --tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af
 bash concate_record_libero.sh
 python concate_action_world_model_data_libero.py --source_dir_patterns libero_goal_his_2_{}_third_view_wrist_w_state_5_256 libero_goal_his_1_{}_third_view_wrist_a2i_256 --all_patterns libero_goal_his_2_third_view_wrist_w_state_5_256_abiw
 ```
@@ -275,6 +279,60 @@ python extract_all_data.py \
     --num_processes {num_processes to accelerate}
 ```
 
+#### Step 3: Generate conversation files
+Generate the VLA model conversation file and world model conversation file:
+```
+cd rynnvla-002/lerobot_util
+python action_model_conv_generation_w_2_abs_state_all_data.py --input_dir {raw_data_output_dir} --his 1 --len_action 20 --task_name vla_data --output_dir {conv_output_dir}
+python world_model_conv_generation_w_2_abs_front_all_data.py --input_dir {raw_data_output_dir} --his 1 --task_name world_model_data --output_dir {conv_output_dir}
+python world_model_conv_generation_w_2_abs_wrist_all_data.py --input_dir {raw_data_output_dir} --his 1 --task_name world_model_data --output_dir {conv_output_dir}
+```
+
+#### Step 4: Tokenize raw data based on conversation files
+First, calculate the min and max value of action data and state data:
+```
+cd rynnvla-002/data_lerobot
+python calculate_min_max_all_data_state.py {raw_data_output_dir}
+python calculate_min_max_all_data_action.py {raw_data_output_dir}
+```
+Put the results at the beginning of `rynnvla-002/data_lerobot/item_processor.py`  
+Then, tokenize all training data and concate them:
+```
+python pretoken_lerobot_state.py \
+    --input_file {conv_output_dir}/libero_vla_data_his_1_train_img_state_abs_ck_1_256.json \
+    --output_dir {raw_data_output_dir}/tokens/vla_data \
+    --resolution 256 \
+    --tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af
+python -u concate_record.py --sub_record_dir {raw_data_output_dir}/tokens/vla_data --save_path {raw_data_output_dir}/tokens/vla_data/record.json
+python pretoken_lerobot.py \
+    --input_file {conv_output_dir}/libero_world_model_data_his_1_train_a2i_512_abs_front_all_data.json \
+    --output_dir {raw_data_output_dir}/tokens/world_model_data_front \
+    --resolution 256 \
+    --tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af
+python -u concate_record.py --sub_record_dir {raw_data_output_dir}/tokens/world_model_data_front --save_path {raw_data_output_dir}/tokens/world_model_data_front/record.json
+python pretoken_lerobot.py \
+    --input_file {conv_output_dir}/libero_world_model_data_his_1_train_a2i_512_abs_wrist_all_data.json \
+    --output_dir {raw_data_output_dir}/tokens/world_model_data_wrist \
+    --resolution 256 \
+    --tokenizer_path ../ckpts/models--Alpha-VLLM--Lumina-mGPT-7B-768/snapshots/9624463a82ea5ce814af9b561dcd08a31082c3af
+python -u concate_record.py --sub_record_dir {raw_data_output_dir}/tokens/world_model_data_wrist --save_path {raw_data_output_dir}/tokens/world_model_data_wrist/record.json
+python concate_multi_record.py \
+    --input_files {raw_data_output_dir}/tokens/vla_data/record.json {raw_data_output_dir}/tokens/world_model_data_front/record.json {raw_data_output_dir}/tokens/world_model_data_wrist/record.json \
+    --output_file {raw_data_output_dir}/concate_tokens/lerobot_all.json
+```
+
+#### Step 5: Prepare data configs
+Set the correct data path in the config files in `rynnvla-002/configs/lerobot/his_1_third_view_wrist_w_state_20_256_pretokenize.yaml`.
+
+#### Step 6: Start training
+Now you can start training with your training scripts:
+```bash
+cd rynnvla-002/exps_pretokenize
+bash libero_goal_his_2_third_view_wrist_w_state_5_256_abiw.sh
+```
+
+## ✅ Inference using LeRobot
+We provide the action generation function in `rynnvla-002/eval_solver_lerobot_action_head_state.py` and initilization script in `rynnvla-002/evals_lerobot/eval_7B_lerobot_action_head.sh`.
 
 
 ## License <a name="license"></a>

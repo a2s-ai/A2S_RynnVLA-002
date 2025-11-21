@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-该脚本用于分析指定目录下的机器人 State 数据。
+该脚本用于分析指定目录下的机器人 Action 数据。
 
 它会递归地查找包含 'episode' 子目录的文件夹，然后在这些文件夹中
-查找所有 'state/*.npy' 文件。接着，它会使用多线程并行加载这些 .npy 文件，
-验证其形状是否为 (6,)，最后计算并打印所有有效 State 数据的统计信息
+查找所有 'abs_action/*.npy' 文件。接着，它会使用多线程并行加载这些 .npy 文件，
+验证其形状是否为 (6,)，最后计算并打印所有有效 Action 数据的统计信息
 （最小值、最大值、1%分位数和99%分位数）。
 
 用法:
@@ -39,14 +39,14 @@ MAX_WORKERS = 32
 def find_all_action_npy_files_fast(root_directories):
     """
     使用 glob 模式在给定的目录列表中快速查找所有 action .npy 文件。
-    目录结构假定为 <root_directory>/<any_name>/state/*.npy
+    目录结构假定为 <root_directory>/<any_name>/abs_action/*.npy
     """
     npy_file_paths = []
     if not root_directories:
         return npy_file_paths
 
     print("开始使用 glob 模式快速扫描文件...")
-    glob_pattern = os.path.join('*', 'state', '*.npy')
+    glob_pattern = os.path.join('*', 'abs_action', '*', '0.npy')
 
     for root_dir in tqdm(root_directories, desc="扫描目录", unit="dir"):
         if not os.path.isdir(root_dir):
@@ -63,7 +63,7 @@ def find_all_action_npy_files_fast(root_directories):
 def load_and_validate_action(file_path):
     """
     由单个线程执行的工作函数：加载一个 .npy 文件并验证其形状。
-    返回 State 数据或 None（如果失败）。
+    返回 Action 数据或 None（如果失败）。
     """
     try:
         action_data = np.load(file_path)
@@ -86,7 +86,7 @@ def analyze_action_data_multithreaded(file_paths):
         return
 
     all_actions = []
-    print(f"正在使用最多 {MAX_WORKERS} 个线程并行加载和处理 State 数据...")
+    print(f"正在使用最多 {MAX_WORKERS} 个线程并行加载和处理 Action 数据...")
 
     # 使用 ThreadPoolExecutor 来并行处理文件加载
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
@@ -116,7 +116,7 @@ def analyze_action_data_multithreaded(file_paths):
     q99_vals = np.percentile(stacked_actions, 99, axis=0)
 
     # 打印结果
-    print("\n--- State 数据统计结果 ---")
+    print("\n--- Action 数据统计结果 ---")
     print("-" * 85)
     print(f"{'维度':<10} | {'最小值':<20} | {'最大值':<20} | {'1% 分位数 (q01)':<20} | {'99% 分位数 (q99)':<20}")
     print("-" * 85)
