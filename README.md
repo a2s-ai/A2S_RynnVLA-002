@@ -14,10 +14,7 @@ RynnVLA-002: A Unified Vision-Language-Action and World Model</a></h3>
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellow)](./LICENSE) 
 </h5>
 
-<video controls width="100%">
-    <source src="https://github.com/user-attachments/assets/a09f6b8b-7707-4478-b069-2de1629c0b83" type="video/mp4">
-</video>
-
+<div align="center"><video src="https://github.com/user-attachments/assets/a09f6b8b-7707-4478-b069-2de1629c0b83" width="800" autoplay loop muted></div>
 
 ## 📰 News
 
